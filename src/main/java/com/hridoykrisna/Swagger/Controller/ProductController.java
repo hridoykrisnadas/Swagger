@@ -56,7 +56,7 @@ public class ProductController {
             summary = "DELETE Operation of Product",
             description = "It use to be Delete product from the database"
     )
-    @DeleteMapping(URLConstraint.ProductManagement.DELETE)
+    @PutMapping(URLConstraint.ProductManagement.DELETE)
     public Response deleteProduct(@Valid @PathVariable("id") long id) {
         return productService.delete(id);
     }

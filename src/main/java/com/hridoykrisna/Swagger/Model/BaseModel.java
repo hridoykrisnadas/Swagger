@@ -19,12 +19,13 @@ public abstract class BaseModel {
     @PrePersist
     public void setPreInsertData() {
         this.createdAt = new Date();
+        this.updateAt = new Date();
         this.isActive = true;
     }
 
     @PreUpdate
     public void setPostUpdateData() {
         this.updateAt = new Date();
-        this.isActive = true;
+//        this.isActive = true;
     }
 }

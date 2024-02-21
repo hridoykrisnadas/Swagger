@@ -66,11 +66,14 @@ public class ProductServiceIMPL implements ProductService {
 
     @Override
     public Response delete(long id) {
-        Optional<Product> product = productRepo.findByIdAndIsActiveTrue(id);
-        if (product.isPresent()) {
-            product.get().setIsActive(false);
-            productRepo.save(product.get());
-            return ResponseBuilder.getSuccessMessage(HttpStatus.OK, "Product Delete Successfully");
+        Optional<Product> productOptional = productRepo.findByIdAndIsActiveTrue(id);
+        if (productOptional.isPresent()) {
+            Product product = productOptional.get();
+            product.setIsActive(false);
+            product = productRepo.save(product);
+            modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+            ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
+            return ResponseBuilder.getSuccessMessage(HttpStatus.OK, "Product Delete Successfully", productDTO);
         }
         return ResponseBuilder.getFailureMessage(HttpStatus.NOT_FOUND, "Not Found");
     }
