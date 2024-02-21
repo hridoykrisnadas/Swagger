@@ -57,7 +57,7 @@ public class ProductServiceIMPL implements ProductService {
             modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
             ProductDTO productDTO = modelMapper.map(product.get(), ProductDTO.class);
             if (productDTO != null) {
-                return ResponseBuilder.getSuccessMessage(HttpStatus.OK, "Product Retrieve Successfully", productDTO);
+                return ResponseBuilder.getSuccessMessage(HttpStatus.OK, "Product Retrieve Successfully", productDTO, 1, productDTO.getClass().getDeclaredFields().length);
             }
             return ResponseBuilder.getFailureMessage(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
         }
@@ -79,7 +79,7 @@ public class ProductServiceIMPL implements ProductService {
     public Response getAllProduct() {
         List<Product> productList = productRepo.findAllByIsActiveTrue();
         List<ProductDTO> productDTOList = getProductDTOList(productList);
-        return ResponseBuilder.getSuccessMessage(HttpStatus.OK, "Products Retrieve Successfully", productDTOList);
+        return ResponseBuilder.getSuccessMessage(HttpStatus.OK, "Products Retrieve Successfully", productDTOList, productDTOList.size(), productDTOList.get(0).getClass().getDeclaredFields().length);
     }
 
     private List<ProductDTO> getProductDTOList(List<Product> productList) {
